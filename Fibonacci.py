@@ -13,4 +13,4 @@ def f(n):
             x = f0 + f1
         return x
 
-print(f(100))
+print(f(69))
