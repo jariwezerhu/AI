@@ -19,3 +19,4 @@ for i in range(1, int(pyrsize2)):
     print(i*"*")
 for i in range(int(pyrsize2), 0, -1):
     print(i*"*")
+
