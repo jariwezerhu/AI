@@ -51,7 +51,7 @@ def part_4_code():
 def req_code():     # request code from user
     print("First, we'll need to create a 4-digit code.")
     code = (part_1_code(), part_2_code(), part_3_code(), part_4_code())
-    print("The code,", code + ", has been created! The computer will now try to guess the code")
+    print("The code", code, "has been created! The computer will now try to guess the code")
     return code
 
 def req_difficulty():
@@ -72,11 +72,11 @@ def player_feedback(code):
     print("{}\n{}\n{}".format("For each number in the correct place, type 2", "For each correct number in the wrong place, type 1", "For each wrong number, type 0"))
     while True:
         try:
-            feedback = int(input("Give your response: "))
-            if not len(str(feedback)) == 4:
+            feedback = input("Give your response: ")
+            if len(feedback) != 4:
                 raise Exception
-            for i in str(feedback):
-                if 0 > int(i) > 2:
+            for i in feedback:
+                if not int(i) in (0, 1, 2):
                     raise Exception
             else:
                 return feedback
@@ -96,4 +96,22 @@ def com_braindead(code):
             tries -= 1
     print("You win!")
 
-com_braindead((6, 2, 5, 0))
+def game_style():
+    print("Welcome to Mastermind")
+    try:
+        style = int(input("Type 1 to let the computer guess, type 2 to guess yourself"))
+        if style == 1:
+            difficulty = req_difficulty()
+            code = req_code()[0, 1, 2, 3]
+            if difficulty == 0:
+                com_braindead(code)
+            if difficulty == 1:
+                print("still in development")
+            if difficulty == 2:
+                print("still in development")
+        if style == 2:
+            print("still in development")
+    except:
+        print("Something went wrong.")
+
+game_style()
