@@ -71,16 +71,47 @@ def com_easy(feedback):
         if tries == 10:
             code_guess = str('0011')
             feedback1 = player_feedback(code_guess)
+            if feedback1 == 2222:
+                print("You lost!")
+                break
             for i in feedback1:
                 if i == 0:
                     pass
-                elif i == 1:
-                    potential_a.append('0', '1'), potential_b.append('0', '1'), potential_c.append('0', '1'), potential_d.append('0', '1')
-        if code_guess == feedback:
-            print("You lost!")
-            break
+                if i == 1 or i == 2:
+                    potential_a.append(['0', '1'])
+                    potential_b.append(['0', '1'])
+                    potential_c.append(['0', '1'])
+                    potential_d.append(['0', '1'])
+        if tries == 9:
+            code_guess = str('2233')
+            feedback2 = player_feedback(code_guess)
+            if feedback2 == 2222:
+                print("You lost!")
+                break
+            for i in feedback2:
+                if i == 0:
+                    pass
+                if i == 1 or i == 2:
+                    potential_a.append(['2', '3'])
+                    potential_b.append(['2', '3'])
+                    potential_c.append(['2', '3'])
+                    potential_d.append(['2', '3'])
+        if tries == 8:
+            code_guess = str('1144')
+            feedback2 = player_feedback(code_guess)
+            if feedback2 == 2222:
+                print("You lost!")
+                break
+            for i in feedback2:
+                if i == 0:
+                    pass
+                if i == 1 or i == 2:
+                    potential_a.append(['2', '3'])
+                    potential_b.append(['2', '3'])
+                    potential_c.append(['2', '3'])
+                    potential_d.append(['2', '3'])
         else:
-            player_feedback(code_guess)
             tries -= 1
-    print("You win!")
+    if tries == 0:
+        print("You win!")
 
