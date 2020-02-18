@@ -1,5 +1,5 @@
 import random
-from itertools import product
+from itertools import product       # nog niet gebruikt
 
 def req_code():     # request code from user
     print("Pick a 4-digit code. The digits can be 1-6")
@@ -51,46 +51,30 @@ def com_braindead():
         code_guess = (random.randint(1, 6), random.randint(1, 6), random.randint(1, 6), random.randint(1, 6))
         feedback = player_feedback(code_guess)
         if feedback == 2222:
-            print("You lost!")
+            print("You lost?!")
             break
         else:
             tries -= 1
     print("You win!")
 
-def com_easy(feedback):
+def com_easy(feedback):         # zelf bedachte algoritme
     tries = 10
     a = [1, 2, 3, 4, 5, 6]
     b = [1, 2, 3, 4, 5, 6]
     c = [1, 2, 3, 4, 5, 6]
     d = [1, 2, 3, 4, 5, 6]
-    possibilities = []
-    for i in product(a, b, c, d):
-        possibilities.append(int(''.join(str(x) for x in i)))       # berekent alle mogelijkheden
-    while tries > 0:
-        correct = [0, 0]
-        if tries == 10:
-            code_guess = str('1122')
-            feedback1 = player_feedback(code_guess)
-            if feedback1 == 2222:
-                print("You lost!")
-                break
-            for i in feedback1:
-                if int(i) == 0:
-                    pass
-                if int(i) == 1:
-                    correct[0] += 1
-                if int(i) == 2:
-                    correct[1] += 1
-            if correct == [0, 0]:     # https://stackoverflow.com/a/3416473
-                possibilities = [x for x in possibilities if '1' not in x and '2' not in x]
-            if correct == [1, 0]:
-                possibilities = [x for x in possibilities if '11' not in x and '22' not in x]
-                possibilities = [x for x in possibilities if '1' in x or '2']
-            if correct == [2, 0]:
-                possibilities = [x for x in possibilities if '11' in x or '22' in x]
-            tries -= 1
-    if tries == 0:
-        print("You win!")
+    correct = [0, 0]
+    if tries == 10:
+        generated_guess = 1111
+        feedback = player_feedback(generated_guess)     # request player feedback
+        for i in feedback:
+            if i == 2:
+                correct[0] += 1
+            if i == 1:
+                correct[1] += 1
+        if correct == [0, 0]:
+
+
 
 def generate_code():
     code = int(str(random.randint(1, 6)) + str(random.randint(1, 6)) + str(random.randint(1, 6)) + str(random.randint(1, 6)))
@@ -150,7 +134,7 @@ def generate_feedback(code, guess):
 def player_guess():
     while True:
         try:
-            guess = input("Guess the 4-digit code, existing of numbers 0-6")
+            guess = input("Guess the 4-digit code, existing of numbers 1-6")
             if len(guess) != 4:
                 raise Exception
             for i in guess:
@@ -159,7 +143,7 @@ def player_guess():
             else:
                 return guess
         except:
-            print("Enter a 4-digit code from numbers 0-6")
+            print("Enter a 4-digit code from numbers 1-6")
 
 
 def game():
@@ -189,7 +173,7 @@ def game():
                         com_braindead()
                         break
                     if difficulty == 1:
-                        print("Not yet developed, try 0")
+                        com_easy()
                         continue
                     if difficulty == 2:
                         print("Not yet developed, try 0")
