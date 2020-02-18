@@ -100,30 +100,51 @@ def generate_feedback(code, guess):
     correct = [0, 0]    # [correct number, correct place]
     a1, b1, c1, d1 = str(code)[0], str(code)[1], str(code)[2], str(code)[3]
     a2, b2, c2, d2 = str(guess)[0], str(guess)[1], str(guess)[2], str(guess)[3]
-    if a1 == a2:
+    if a2 == a1:                        # first it checks for correct locations, changes them to 0 so they aren't reused
         correct[1] += 1
-        a2 = None
-    if b1 == b2:
-        correct[1] += 1
-        b2 = None
-    if c1 == c2:
-        correct[1] += 1
-        c2 = None
-    if d1 == d2:
-        correct[1] += 1
-        d2 = None
-    elif a1 in (b2, c2, d2):
-        correct[0] += 1
         a1 = 0
-    elif b1 in (a2, c2, d2):
+    if b2 == b1:
+        correct[1] += 1
+        b1 = 0
+    if c2 == c1:
+        correct[1] += 1
+        c1 = 0
+    if d2 == d1:
+        correct[1] += 1
+        d1 = 0
+    if a2 == b1:                        # next it checks if in other locations, changes them to 0 so they aren't reused
         correct[0] += 1
         b1 = 0
-    elif c1 in (a2, b2, d2):
+    if a2 == c1:
         correct[0] += 1
         c1 = 0
-    elif d1 in (a2, b2, c2):
+    if a2 == d1:
         correct[0] += 1
         d1 = 0
+    if b2 == a1:
+        correct[0] += 1
+        a1 = 0
+    if b2 == c1:
+        correct[0] += 1
+        c1 = 0
+    if b2 == d1:
+        correct[0] += 1
+        d1 = 0
+    if c2 == a1:
+        correct[0] += 1
+        a1 = 0
+    if c2 == b1:
+        correct[0] += 1
+        b1 = 0
+    if c2 == d1:
+        correct[0] += 1
+        d1 = 0
+    if d2 == a1:
+        correct[0] += 1
+    if d2 == b1:
+        correct[0] += 1
+    if d2 == c1:
+        correct[0] += 1
     return correct
 
 def player_guess():
