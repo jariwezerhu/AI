@@ -174,6 +174,7 @@ def comHard():
     if tries == 0:
         print("You win!")
 
+
 def generateCode():
     code = int(str(random.randint(1, 6)) + str(random.randint(1, 6)) + str(random.randint(1, 6)) + str(random.randint(1, 6)))
     return code
@@ -255,5 +256,6 @@ def game():
                 raise Exception
         except:
             print("Enter '1' to guess and '2' to let the computer guess")
+
 
 game()
