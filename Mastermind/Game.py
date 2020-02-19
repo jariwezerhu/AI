@@ -142,7 +142,7 @@ def comNormal():        # Knuth
         print("You win!")
 
 
-def comHard():
+def comHard():  # expected size strategy
     tries = 10
     possibleInt = [1, 2, 3, 4, 5, 6]
     possibleAnswer = []
