@@ -29,9 +29,9 @@ def reqDifficulty():
     print("Now we need a difficulty. Pick 0 for brain dead, 1 for easy, 2 for normal, 3 for hard")
     while True:
         try:
-            chosen_difficulty = int(input("Pick a difficulty: "))
-            if len(str(chosen_difficulty)) == 1 and 0 <= chosen_difficulty <= 3:
-                return chosen_difficulty
+            chosenDifficulty = int(input("Pick a difficulty: "))
+            if len(str(chosenDifficulty)) == 1 and 0 <= chosenDifficulty <= 3:
+                return chosenDifficulty
             else:
                 raise Exception
         except:
@@ -59,8 +59,8 @@ def playerFeedback(code):
 def comBraindead():     # niet te verliezen. gokt alleen maar
     tries = 10
     while tries > 0:
-        code_guess = (random.randint(1, 6), random.randint(1, 6), random.randint(1, 6), random.randint(1, 6))
-        feedback = playerFeedback(code_guess)
+        codeGuess = (random.randint(1, 6), random.randint(1, 6), random.randint(1, 6), random.randint(1, 6))
+        feedback = playerFeedback(codeGuess)
         if feedback == 2222:
             print("You lost?!")
             break
@@ -77,8 +77,8 @@ def comEasy():         # zelf bedachte algoritme. krijgt de juiste ints en gokt 
     while tries > 0:
         correct = [0, 0]
         if len(potentialCode) == 4 and possibleAnswer == []:
-            for i in permutations(potentialCode):  # maakt alle mogelijke permutaties van de 4 ints en stopt ze in lists
-                possibleAnswer.append(concatenate_list_data(i))     # voegt de strings van de lists samen en voegt toe aan possibleAnswer
+            for i in permutations(potentialCode):  # puts all permutations in lists
+                possibleAnswer.append(concatenate_list_data(i))     # puts lists into strings and adds permutations to possibleAnswers
             generatedGuess = random.choice(possibleAnswer)
             feedback = playerFeedback(generatedGuess)
             if int(feedback) == 2222:
@@ -181,7 +181,7 @@ def game():
     while True:
         try:
             gamestyle = int(input("Guess[1] or let the computer guess[2]? "))
-            if gamestyle == 1:
+            if gamestyle == 1:    # computer guesses
                 tries = 10
                 code = generateCode()
                 while tries > 0:
@@ -191,13 +191,13 @@ def game():
                         break
                     elif code != guess:
                         feedback = generateFeedback(code, guess)
-                        print("The computer gave you feedback. You got", feedback[1] ,"in the right location, and", feedback[0],"in the wrong location")
+                        print("The computer gave you feedback. You got", feedback[1], "in the right location, and", feedback[0], "in the wrong location")
                         tries -= 1
                     if tries == 0:
                         print('You lost. The code was', code)
                         break
-            if gamestyle == 2:
-                player_code = reqCode()
+            if gamestyle == 2:      # player guesses
+                reqCode()
                 while True:
                     difficulty = reqDifficulty()
                     if difficulty == 0:
@@ -205,7 +205,7 @@ def game():
                         break
                     if difficulty == 1:
                         comEasy()
-                        continue
+                        break
                     if difficulty == 2:
                         print("Not yet developed, try 0")
                         continue
