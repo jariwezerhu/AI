@@ -1,7 +1,15 @@
 import random
-from itertools import product       # nog niet gebruikt
+from itertools import permutations
 
-def req_code():     # request code from user
+
+def concatenate_list_data(list):   # https://www.w3resource.com/python-exercises/python-basic-exercise-27.php
+    result= ''
+    for element in list:
+        result += str(element)
+    return result
+
+
+def reqCode():     # request code from user
     print("Pick a 4-digit code. The digits can be 1-6")
     while True:
         try:
@@ -16,7 +24,8 @@ def req_code():     # request code from user
         except:
             print("Pick a 4-digit code. The digits can be 1-6")
 
-def req_difficulty():
+
+def reqDifficulty():
     print("Now we need a difficulty. Pick 0 for brain dead, 1 for easy, 2 for normal, 3 for hard")
     while True:
         try:
@@ -28,7 +37,8 @@ def req_difficulty():
         except:
             print("Pick 0 for brain dead, 1 for easy, 2 for normal, 3 for hard")
 
-def player_feedback(code):
+
+def playerFeedback(code):
     print("The computer has guessed", code)
     print("{}\n{}\n{}".format("For each number in the correct place, type 2", "For each correct number in the wrong place, type 1", "For each wrong number, type 0"))
     while True:
@@ -40,16 +50,17 @@ def player_feedback(code):
                 if not int(i) in (0, 1, 2):
                     raise Exception
             else:
-                return sorted(feedback)
+                return str(feedback)
         except:
             print("Input four digits. 0, 1, or 2")
             continue
 
-def com_braindead():
+
+def comBraindead():     # niet te verliezen. gokt alleen maar
     tries = 10
     while tries > 0:
         code_guess = (random.randint(1, 6), random.randint(1, 6), random.randint(1, 6), random.randint(1, 6))
-        feedback = player_feedback(code_guess)
+        feedback = playerFeedback(code_guess)
         if feedback == 2222:
             print("You lost?!")
             break
@@ -57,30 +68,50 @@ def com_braindead():
             tries -= 1
     print("You win!")
 
-def com_easy(feedback):         # zelf bedachte algoritme
+
+def comEasy():         # zelf bedachte algoritme. krijgt de juiste ints en gokt uit die mogelijkheden
     tries = 10
-    a = [1, 2, 3, 4, 5, 6]
-    b = [1, 2, 3, 4, 5, 6]
-    c = [1, 2, 3, 4, 5, 6]
-    d = [1, 2, 3, 4, 5, 6]
-    correct = [0, 0]
-    if tries == 10:
-        generated_guess = 1111
-        feedback = player_feedback(generated_guess)     # request player feedback
-        for i in feedback:
-            if i == 2:
-                correct[0] += 1
-            if i == 1:
-                correct[1] += 1
-        if correct == [0, 0]:
+    possibleInt = [1, 2, 3, 4, 5, 6]
+    potentialCode = ''
+    possibleAnswer = []
+    while tries > 0:
+        correct = [0, 0]
+        if len(potentialCode) == 4 and possibleAnswer == []:
+            for i in permutations(potentialCode):  # maakt alle mogelijke permutaties van de 4 ints en stopt ze in lists
+                possibleAnswer.append(concatenate_list_data(i))     # voegt de strings van de lists samen en voegt toe aan possibleAnswer
+            generatedGuess = random.choice(possibleAnswer)
+            feedback = playerFeedback(generatedGuess)
+            if int(feedback) == 2222:
+                print("You lost!")
+                break
+        elif not possibleAnswer == []:
+            generatedGuess = random.choice(possibleAnswer)
+            feedback = playerFeedback(generatedGuess)
+            if int(feedback) == 2222:
+                print("You lost!")
+                break
+        else:
+            generatedInt = random.choice(possibleInt)       # random int
+            possibleInt.remove(generatedInt)
+            generatedGuess = int(str(generatedInt)*4)       # that random int repeated four times, example '1111'
+            feedback = playerFeedback(generatedGuess)     # request player feedback
+            if feedback == 2222:
+                print("You lost!")
+                break
+            for i in feedback:
+                if int(i) == 2:
+                    correct[0] += 1
+            for y in range(0, correct[0]):
+                potentialCode += str(generatedInt)
+        tries -= 1
+    print('You win!')
 
 
-
-def generate_code():
+def generateCode():
     code = int(str(random.randint(1, 6)) + str(random.randint(1, 6)) + str(random.randint(1, 6)) + str(random.randint(1, 6)))
     return code
 
-def generate_feedback(code, guess):
+def generateFeedback(code, guess):
     correct = [0, 0]    # [correct number, correct place]
     a1, b1, c1, d1 = str(code)[0], str(code)[1], str(code)[2], str(code)[3]
     a2, b2, c2, d2 = str(guess)[0], str(guess)[1], str(guess)[2], str(guess)[3]
@@ -131,7 +162,7 @@ def generate_feedback(code, guess):
         correct[0] += 1
     return correct
 
-def player_guess():
+def playerGuess():
     while True:
         try:
             guess = input("Guess the 4-digit code, existing of numbers 1-6")
@@ -152,28 +183,28 @@ def game():
             gamestyle = int(input("Guess[1] or let the computer guess[2]? "))
             if gamestyle == 1:
                 tries = 10
-                code = generate_code()
+                code = generateCode()
                 while tries > 0:
-                    guess = player_guess()
+                    guess = playerGuess()
                     if str(code) == str(guess):
                         print("You won. The code is", code)
                         break
                     elif code != guess:
-                        feedback = generate_feedback(code, guess)
+                        feedback = generateFeedback(code, guess)
                         print("The computer gave you feedback. You got", feedback[1] ,"in the right location, and", feedback[0],"in the wrong location")
                         tries -= 1
                     if tries == 0:
                         print('You lost. The code was', code)
                         break
             if gamestyle == 2:
-                player_code = req_code()
+                player_code = reqCode()
                 while True:
-                    difficulty = req_difficulty()
+                    difficulty = reqDifficulty()
                     if difficulty == 0:
-                        com_braindead()
+                        comBraindead()
                         break
                     if difficulty == 1:
-                        com_easy()
+                        comEasy()
                         continue
                     if difficulty == 2:
                         print("Not yet developed, try 0")
