@@ -1,5 +1,5 @@
 import random
-from itertools import permutations
+from itertools import permutations, product
 
 
 def concatenate_list_data(list):   # https://www.w3resource.com/python-exercises/python-basic-exercise-27.php
@@ -146,10 +146,30 @@ def comHard():
     tries = 10
     possibleInt = [1, 2, 3, 4, 5, 6]
     possibleAnswer = []
-    for i in permutations(possibleInt, 4):  # puts all permutations in lists
-        possibleAnswer.append(concatenate_list_data(i))     # puts lists into strings and adds permutations to possibleAnswers
+    for i in product(possibleInt, repeat=4):  # puts all combinations in lists
+        possibleAnswer.append(concatenate_list_data(i))     # puts lists into strings and adds combinations to possibleAnswers
     while tries > 0:
-        print("X")
+        if tries == 10:
+            feedback = playerFeedback('1233')
+            if feedback == [0, 4]:
+                print("You lost!")
+                break
+            else:
+                for i in possibleAnswer[:]:
+                    potentialFeedback = generateFeedback(i, '1233')
+                    if not potentialFeedback == feedback:
+                        possibleAnswer.remove(i)
+        else:
+            computerGuess = random.choice(possibleAnswer)
+            feedback = playerFeedback(computerGuess)
+            if feedback == [0, 4]:
+                print("You lost!")
+                break
+            else:
+                for i in possibleAnswer[:]:
+                    potentialFeedback = generateFeedback(i, computerGuess)
+                    if not potentialFeedback == feedback:
+                        possibleAnswer.remove(i)
         tries -= 1
     if tries == 0:
         print("You win!")
@@ -225,10 +245,10 @@ def game():
                         break
                     if difficulty == 2:
                         comNormal()
-                        continue
+                        break
                     if difficulty == 3:
-                        print("Not yet developed, try 0")
-                        continue
+                        comHard()
+                        break
                     else:
                         raise Exception
             else:
